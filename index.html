@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cleveland Foundation Trivia · Take Me Out to the Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Cleveland Foundation Brand ---------- */
+  :root{
+    --primary: #164430;       /* Dark Green */
+    --secondary: #F3F1EF;     /* Off-white */
+    --orange: #EE7331;        /* Accent 1 */
+    --mid-green: #086C43;     /* Accent 2 */
+    --red: #CC1E4B;           /* Accent 3 */
+    --aqua: #19B9A9;          /* Accent 4 */
+    --blue: #1A8DA9;          /* Accent 5 */
+    --pink: #C0629A;          /* Accent 6 */
+    --black: #000000;
+    --gray: #F3F2F0;
+    --light-orange: #DBD5CA;
+
+    --display: 'Bebas Neue', 'Source Sans 3', sans-serif;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --body: 'Source Sans 3', system-ui, sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body{
+    min-height: 100%;
+    font-family: var(--body);
+    color: var(--primary);
+    background: var(--secondary);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body{
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(238,115,49,0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(25,185,169,0.10), transparent 55%),
+      var(--secondary);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Subtle baseball stitch texture as background detail */
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(22,68,48,0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stage{
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 22px 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    font-family: var(--display);
+    letter-spacing: 0.08em;
+    font-size: 14px;
+    color: var(--primary);
+  }
+  .brand{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-mark{
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--primary);
+    position: relative;
+    flex: none;
+  }
+  .brand-mark::after{
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    border: 1.5px dashed var(--orange);
+  }
+  .topbar .pill{
+    background: var(--primary);
+    color: var(--secondary);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  /* ---------- Cards (screens) ---------- */
+  .card{
+    background: var(--secondary);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    padding: 36px 28px;
+    box-shadow: 8px 8px 0 var(--primary);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: pop 0.45s cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes pop{
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ---------- Welcome Screen ---------- */
+  .hero-eyebrow{
+    font-family: var(--display);
+    letter-spacing: 0.18em;
+    color: var(--orange);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .hero-title{
+    font-family: var(--display);
+    font-size: clamp(48px, 11vw, 78px);
+    line-height: 0.92;
+    color: var(--primary);
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+  .hero-title .swap{
+    color: var(--orange);
+    font-style: italic;
+    font-family: var(--serif);
+    display: inline-block;
+    transform: translateY(2px);
+  }
+  .hero-sub{
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--primary);
+    margin: 18px 0 28px;
+    max-width: 56ch;
+  }
+  .hero-meta{
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .meta-chip{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--primary);
+    color: var(--secondary);
+    border-radius: 999px;
+    font-family: var(--display);
+    letter-spacing: 0.08em;
+    font-size: 13px;
+  }
+  .meta-chip.alt{ background: var(--orange); }
+  .meta-chip.alt2{ background: var(--mid-green); }
+
+  .baseball-deco{
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 2px solid var(--primary);
+    overflow: hidden;
+  }
+  .baseball-deco::before, .baseball-deco::after{
+    content: "";
+    position: absolute;
+    border: 2px dashed var(--red);
+    border-radius: 50%;
+  }
+  .baseball-deco::before{ inset: -22px -50px -22px 30px; }
+  .baseball-deco::after{ inset: -22px 30px -22px -50px; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--display);
+    letter-spacing: 0.12em;
+    font-size: 18px;
+    padding: 16px 28px;
+    border: 2px solid var(--primary);
+    background: var(--primary);
+    color: var(--secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s, color 0.2s;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--orange);
+    width: 100%;
+    max-width: 360px;
+  }
+  .btn:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--orange);
+  }
+  .btn:active{
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--orange);
+  }
+  .btn.secondary{
+    background: var(--secondary);
+    color: var(--primary);
+    box-shadow: 4px 4px 0 var(--primary);
+  }
+  .btn.secondary:hover{ box-shadow: 6px 6px 0 var(--primary); }
+  .btn.orange{
+    background: var(--orange);
+    color: var(--secondary);
+    border-color: var(--orange);
+    box-shadow: 4px 4px 0 var(--primary);
+  }
+  .btn.aqua{
+    background: var(--aqua);
+    color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 4px 4px 0 var(--primary);
+  }
+
+  /* ---------- Question Screen ---------- */
+  .progress-row{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .progress-label{
+    font-family: var(--display);
+    letter-spacing: 0.12em;
+    color: var(--primary);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .progress-bar{
+    flex: 1;
+    height: 10px;
+    background: var(--light-orange);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1.5px solid var(--primary);
+  }
+  .progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, var(--orange), var(--red));
+    width: 0%;
+    transition: width 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .q-num{
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--orange);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .q-text{
+    font-family: var(--display);
+    font-size: clamp(26px, 5.5vw, 36px);
+    line-height: 1.05;
+    color: var(--primary);
+    margin-bottom: 28px;
+    letter-spacing: 0.005em;
+  }
+
+  .options{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .option{
+    text-align: left;
+    background: var(--secondary);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 16px 18px;
+    border-radius: 4px;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+  }
+  .option:hover:not(:disabled){
+    background: var(--primary);
+    color: var(--secondary);
+    transform: translateX(4px);
+  }
+  .option .letter{
+    font-family: var(--display);
+    font-size: 18px;
+    background: var(--primary);
+    color: var(--secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    transition: all 0.15s ease;
+  }
+  .option:hover:not(:disabled) .letter{
+    background: var(--orange);
+    color: var(--primary);
+  }
+  .option.correct{
+    background: var(--mid-green);
+    color: var(--secondary);
+    border-color: var(--mid-green);
+    animation: correct-pulse 0.5s ease;
+  }
+  .option.correct .letter{ background: var(--secondary); color: var(--mid-green); }
+  .option.incorrect{
+    background: var(--red);
+    color: var(--secondary);
+    border-color: var(--red);
+    animation: shake 0.4s ease;
+  }
+  .option.incorrect .letter{ background: var(--secondary); color: var(--red); }
+  .option:disabled{ cursor: default; }
+  .option.dimmed{ opacity: 0.4; }
+
+  @keyframes correct-pulse{
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+  @keyframes shake{
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .feedback{
+    background: var(--gray);
+    border-left: 4px solid var(--orange);
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    border-radius: 2px;
+    font-size: 16px;
+    line-height: 1.5;
+    animation: pop 0.35s ease;
+  }
+  .feedback.right{ border-left-color: var(--mid-green); }
+  .feedback.wrong{ border-left-color: var(--red); }
+  .feedback strong{ font-family: var(--display); letter-spacing: 0.08em; font-size: 14px; display: block; margin-bottom: 4px; }
+
+  .next-row{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+
+  /* ---------- Results Screen ---------- */
+  .result-eyebrow{
+    font-family: var(--display);
+    letter-spacing: 0.2em;
+    color: var(--orange);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .score-big{
+    font-family: var(--display);
+    font-size: clamp(72px, 18vw, 130px);
+    line-height: 0.85;
+    color: var(--primary);
+    margin-bottom: 0;
+  }
+  .score-big .out-of{ color: var(--orange); font-family: var(--serif); font-style: italic; font-size: 0.5em; }
+  .rank-title{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(28px, 6vw, 38px);
+    color: var(--mid-green);
+    margin: 8px 0 8px;
+    line-height: 1.1;
+  }
+  .rank-blurb{
+    font-size: 17px;
+    line-height: 1.55;
+    margin-bottom: 28px;
+    max-width: 56ch;
+  }
+
+  .cta-section{
+    margin-top: 24px;
+  }
+  .cta-heading{
+    font-family: var(--display);
+    letter-spacing: 0.12em;
+    font-size: 16px;
+    color: var(--primary);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .cta-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cta-card{
+    border: 2px solid var(--primary);
+    background: var(--secondary);
+    padding: 18px 18px;
+    border-radius: 4px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+  }
+  .cta-card:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--orange);
+  }
+  .cta-card .icon{
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--secondary);
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+    font-family: var(--display);
+    font-size: 22px;
+  }
+  .cta-card.donate .icon{ background: var(--orange); }
+  .cta-card.web .icon{ background: var(--aqua); color: var(--primary); }
+  .cta-card .ct-title{
+    font-family: var(--display);
+    letter-spacing: 0.08em;
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  .cta-card .ct-sub{
+    font-size: 14px;
+    line-height: 1.35;
+    color: #555;
+  }
+
+  /* ---------- Email form ---------- */
+  .email-form{
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-direction: column;
+  }
+  .email-form input{
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    font-family: var(--body);
+    font-size: 16px;
+    background: var(--secondary);
+    color: var(--primary);
+    outline: none;
+  }
+  .email-form input:focus{
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(238,115,49,0.15);
+  }
+  .email-form button{
+    padding: 14px 18px;
+    background: var(--primary);
+    color: var(--secondary);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    font-family: var(--display);
+    letter-spacing: 0.1em;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .email-form button:hover{ background: var(--mid-green); border-color: var(--mid-green); }
+  .form-msg{
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--mid-green);
+    font-weight: 600;
+  }
+  .form-msg.error{ color: var(--red); }
+
+  /* expandable email card */
+  .cta-card.email .email-form{ display: none; }
+  .cta-card.email.open{ flex-direction: column; align-items: stretch; }
+  .cta-card.email.open .email-form{ display: flex; }
+  .cta-card.email .header-row{ display: flex; align-items: center; gap: 16px; width: 100%; }
+
+  /* ---------- Confetti ---------- */
+  #confetti-canvas{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer{
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: #5a5a5a;
+    letter-spacing: 0.06em;
+  }
+  .footer strong{ color: var(--primary); }
+
+  .hidden{ display: none !important; }
+
+  @media (max-width: 480px){
+    .stage{ padding: 18px 14px 40px; }
+    .card{ padding: 28px 20px; box-shadow: 5px 5px 0 var(--primary); }
+    .baseball-deco{ width: 60px; height: 60px; top: 16px; right: 16px; }
+    .option{ font-size: 16px; padding: 14px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="stage">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <span>The Cleveland Foundation</span>
+    </div>
+    <span class="pill">CLE Trivia ’26</span>
+  </div>
+
+  <!-- ============== WELCOME SCREEN ============== -->
+  <section id="screen-welcome" class="card">
+    <div class="baseball-deco"></div>
+    <div class="hero-eyebrow">Take Me Out to the Quiz</div>
+    <h1 class="hero-title">
+      How <span class="swap">Cleveland</span><br>
+      Are You?
+    </h1>
+    <p class="hero-sub">
+      Ten questions. One city. A century of Cleveland baseball, civic milestones, and Foundation history all rolled into one game-day challenge. Test your knowledge and find out where you rank.
+    </p>
+    <div class="hero-meta">
+      <span class="meta-chip">⚾ 10 Questions</span>
+      <span class="meta-chip alt">⏱ ~3 Minutes</span>
+      <span class="meta-chip alt2">🏆 4 Ranks</span>
+    </div>
+    <button class="btn" onclick="startQuiz()">Play Ball →</button>
+  </section>
+
+  <!-- ============== QUESTION SCREEN ============== -->
+  <section id="screen-question" class="card hidden">
+    <div class="progress-row">
+      <span class="progress-label" id="progress-label">Q 1 / 10</span>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="q-num" id="q-num">Question 01</div>
+    <h2 class="q-text" id="q-text"></h2>
+
+    <div class="options" id="options"></div>
+
+    <div id="feedback-box"></div>
+
+    <div class="next-row hidden" id="next-row">
+      <button class="btn orange" id="next-btn" onclick="nextQuestion()" style="width:auto; max-width:none;">Next →</button>
+    </div>
+  </section>
+
+  <!-- ============== RESULTS SCREEN ============== -->
+  <section id="screen-results" class="card hidden">
+    <div class="result-eyebrow">FINAL SCORE</div>
+    <div class="score-big" id="score-display">0<span class="out-of">/10</span></div>
+    <div class="rank-title" id="rank-title"></div>
+    <p class="rank-blurb" id="rank-blurb"></p>
+
+    <div class="cta-section">
+      <h3 class="cta-heading">Keep the Momentum Going</h3>
+      <div class="cta-grid">
+
+        <!-- CTA 1 — Email signup (web3forms) -->
+        <div class="cta-card email" id="email-card">
+          <div class="header-row" onclick="toggleEmailForm()">
+            <div class="icon">✉</div>
+            <div>
+              <div class="ct-title">Stay In The Loop</div>
+              <div class="ct-sub">Get updates on the Foundation's work across Greater Cleveland.</div>
+            </div>
+          </div>
+          <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
+            <input type="hidden" name="access_key" value="703d8f42-6326-4ee0-ae37-42a0b5d74e35">
+            <input type="hidden" name="subject" value="New Cleveland Foundation Trivia Signup">
+            <input type="hidden" name="from_name" value="CLE Trivia Quiz">
+            <input type="text" name="name" placeholder="Your name" required>
+            <input type="email" name="email" placeholder="you@email.com" required>
+            <button type="submit">Sign Me Up</button>
+            <div class="form-msg hidden" id="form-msg"></div>
+          </form>
+        </div>
+
+        <!-- CTA 2 — Donate -->
+        <a class="cta-card donate" href="https://donate.stripe.com/3cI8wP8YZ3Tg2ka2H24c81Y" target="_blank" rel="noopener">
+          <div class="icon">♥</div>
+          <div>
+            <div class="ct-title">Give Now</div>
+            <div class="ct-sub">Help keep Cleveland great for the next generation.</div>
+          </div>
+        </a>
+
+        <!-- CTA 3 — Visit website -->
+        <a class="cta-card web" href="https://www.clevelandfoundation.org/" target="_blank" rel="noopener">
+          <div class="icon">→</div>
+          <div>
+            <div class="ct-title">Visit Our Website</div>
+            <div class="ct-sub">Explore 100+ years of Cleveland Foundation impact.</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <button class="btn secondary" onclick="restartQuiz()" style="max-width: 220px;">↺ Play Again</button>
+    </div>
+  </section>
+
+  <div class="footer">
+    Built with civic pride for the <strong>Cleveland Foundation</strong> · Est. 1914
+  </div>
+
+</div>
+
+<script>
+/* =====================================================
+   QUIZ DATA
+   ===================================================== */
+const QUESTIONS = [
+  {
+    q: "During the Guardians' 1995 World Series run, who was the team's iconic lead-off hitter?",
+    options: ["Omar Vizquel", "Kenny Lofton", "Manny Ramirez", "Jim Thome"],
+    answer: 1,
+    explain: "Kenny Lofton — the speedster who set the table for one of the most feared lineups in baseball history."
+  },
+  {
+    q: "In which year did Cleveland win its first World Series?",
+    options: ["1908", "1916", "1920", "1948"],
+    answer: 2,
+    explain: "1920 — a championship year that also kicked off a transformative era in Cleveland civic life."
+  },
+  {
+    q: "Which local landmark — now just a stone's throw from the Cleveland Foundation — was the site of the 1920 World Series victory over the Brooklyn Robins?",
+    options: ["Municipal Stadium", "League Park (E 65th & Lexington)", "Jacobs Field", "Dunn Field at Euclid"],
+    answer: 1,
+    explain: "League Park at E 65th & Lexington. You can still walk the old infield today."
+  },
+  {
+    q: "In that same year (1920), the Cleveland Foundation initiated which beloved regional recreational asset?",
+    options: ["The Towpath Trail", "The Cleveland MetroParks", "The Cultural Gardens", "Edgewater Park"],
+    answer: 1,
+    explain: "The Cleveland MetroParks — the 'Emerald Necklace' — born from a Cleveland Foundation initiative."
+  },
+  {
+    q: "What was special about the Terminal Tower when the Van Sweringen brothers completed it in 1927?",
+    options: [
+      "It was the first all-steel skyscraper",
+      "It was the tallest building in the world",
+      "It was the first to use elevators",
+      "It was the world's first art-deco tower"
+    ],
+    answer: 1,
+    explain: "It was the tallest building in the world outside New York City — a true Cleveland icon on the skyline."
+  },
+  {
+    q: "Who was the Cleveland mayor elected as the first African American mayor of a major U.S. city?",
+    options: ["Michael White", "Frank Jackson", "Carl Stokes", "Dennis Kucinich"],
+    answer: 2,
+    explain: "Carl Stokes — elected in 1967, a defining moment in American political history made right here in Cleveland."
+  },
+  {
+    q: "In what year did the Guardians break ground for Jacobs Field (now Progressive Field) AND the Cleveland Foundation begin a Committee organizing African-American Philanthropists around the city?",
+    options: ["1989", "1991", "1993", "1995"],
+    answer: 2,
+    explain: "1993 — a banner year for both the ballpark groundbreaking and a landmark moment for Cleveland philanthropy."
+  },
+  {
+    q: "Who is Cleveland's only two-time Cy Young Award winner?",
+    options: ["Bob Feller", "CC Sabathia", "Cliff Lee", "Corey Kluber"],
+    answer: 3,
+    explain: "Corey Kluber — 'Klubot' brought home the hardware in 2014 and 2017."
+  },
+  {
+    q: "Which year was the Guardians' last trip to the World Series — and the year the Cleveland Foundation launched its Public Service Fellowship for emerging civic leaders?",
+    options: ["2014", "2015", "2016", "2017"],
+    answer: 2,
+    explain: "2016 — that unforgettable run, plus a new pipeline for the next generation of Cleveland civic leaders."
+  },
+  {
+    q: "Who holds the franchise record for most extra-base hits (over 700)?",
+    options: ["Tris Speaker", "Jim Thome", "Jose Ramirez", "Albert Belle"],
+    answer: 2,
+    explain: "Jose Ramirez — the heart of modern Cleveland baseball and a record-setting force at the plate."
+  }
+];
+
+const RANKS = [
+  {
+    min: 0, max: 3,
+    title: "Bleacher Rookie",
+    blurb: "Hey, you showed up — that's what matters! Maybe a stadium tour and a stop at the Cleveland Foundation's website are in your future. Welcome to the family."
+  },
+  {
+    min: 4, max: 6,
+    title: "Loyal Townie",
+    blurb: "You know your stuff! You've got a solid grasp of Cleveland's story — both at the ballpark and across the community. Keep digging into what makes this city tick."
+  },
+  {
+    min: 7, max: 8,
+    title: "Hall-of-Fame Local",
+    blurb: "Impressive! You blend Cleveland sports knowledge with serious civic IQ. The Foundation salutes you — and trusts you to spread the word."
+  },
+  {
+    min: 9, max: 10,
+    title: "Cleveland Legend",
+    blurb: "Tip your cap — you ARE Cleveland. You know the city's history like a true champion. Your call: pass it on, give back, or just bask in the glory."
+  }
+];
+
+/* =====================================================
+   STATE & FLOW
+   ===================================================== */
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz(){
+  currentQ = 0;
+  score = 0;
+  document.getElementById("screen-welcome").classList.add("hidden");
+  document.getElementById("screen-question").classList.remove("hidden");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered = false;
+  const q = QUESTIONS[currentQ];
+  document.getElementById("progress-label").textContent = `Q ${currentQ+1} / ${QUESTIONS.length}`;
+  document.getElementById("progress-fill").style.width = ((currentQ) / QUESTIONS.length * 100) + "%";
+  document.getElementById("q-num").textContent = `Question ${String(currentQ+1).padStart(2,"0")}`;
+  document.getElementById("q-text").textContent = q.q;
+
+  const optsEl = document.getElementById("options");
+  optsEl.innerHTML = "";
+  const letters = ["A","B","C","D"];
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerHTML = `<span class="letter">${letters[idx]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(idx, btn);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById("feedback-box").innerHTML = "";
+  document.getElementById("next-row").classList.add("hidden");
+
+  // re-trigger card pop animation
+  const card = document.getElementById("screen-question");
+  card.style.animation = "none";
+  void card.offsetWidth;
+  card.style.animation = "";
+}
+
+function selectOption(idx, btn){
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const buttons = document.querySelectorAll("#options .option");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.answer) b.classList.add("correct");
+    else if (i === idx) b.classList.add("incorrect");
+    else b.classList.add("dimmed");
+  });
+
+  const correct = (idx === q.answer);
+  if (correct) score++;
+
+  // Update progress to reflect this question being done
+  document.getElementById("progress-fill").style.width = ((currentQ+1) / QUESTIONS.length * 100) + "%";
+
+  // Feedback
+  const fb = document.getElementById("feedback-box");
+  fb.innerHTML = `
+    <div class="feedback ${correct ? 'right' : 'wrong'}">
+      <strong>${correct ? '✓ Correct' : '✗ Not quite'}</strong>
+      ${q.explain}
+    </div>
+  `;
+
+  // Next button
+  const nextRow = document.getElementById("next-row");
+  nextRow.classList.remove("hidden");
+  document.getElementById("next-btn").textContent =
+    (currentQ === QUESTIONS.length - 1) ? "See My Score →" : "Next →";
+}
+
+function nextQuestion(){
+  if (currentQ < QUESTIONS.length - 1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults(){
+  document.getElementById("screen-question").classList.add("hidden");
+  document.getElementById("screen-results").classList.remove("hidden");
+  document.getElementById("score-display").innerHTML = `${score}<span class="out-of">/10</span>`;
+
+  const rank = RANKS.find(r => score >= r.min && score <= r.max);
+  document.getElementById("rank-title").textContent = rank.title;
+  document.getElementById("rank-blurb").textContent = rank.blurb;
+
+  // Save score in case user wants to return — keeps it within session
+  try {
+    if (window.storage){
+      window.storage.set("last_score", JSON.stringify({score, rank: rank.title, ts: Date.now()})).catch(()=>{});
+    }
+  } catch(e) { /* storage optional */ }
+
+  launchConfetti();
+}
+
+function restartQuiz(){
+  document.getElementById("screen-results").classList.add("hidden");
+  document.getElementById("screen-welcome").classList.remove("hidden");
+  // reset email form UI
+  const card = document.getElementById("email-card");
+  card.classList.remove("open");
+  document.getElementById("form-msg").classList.add("hidden");
+  document.getElementById("email-form").reset();
+}
+
+/* =====================================================
+   EMAIL FORM (Web3Forms)
+   ===================================================== */
+function toggleEmailForm(){
+  document.getElementById("email-card").classList.toggle("open");
+}
+
+async function submitEmail(e){
+  e.preventDefault();
+  const form = e.target;
+  const msg = document.getElementById("form-msg");
+  msg.classList.remove("hidden", "error");
+  msg.textContent = "Sending...";
+
+  try {
+    const formData = new FormData(form);
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success){
+      msg.textContent = "🎉 You're in! We'll be in touch soon.";
+      form.reset();
+    } else {
+      throw new Error(data.message || "Submission failed");
+    }
+  } catch (err) {
+    msg.classList.add("error");
+    msg.textContent = "Hmm, something went wrong. Please try again.";
+  }
+}
+
+/* =====================================================
+   CONFETTI ANIMATION
+   ===================================================== */
+function launchConfetti(){
+  const canvas = document.getElementById("confetti-canvas");
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+
+  function resize(){
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Cleveland Foundation palette for confetti
+  const colors = ["#164430","#EE7331","#086C43","#CC1E4B","#19B9A9","#1A8DA9","#C0629A"];
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+
+  const pieces = [];
+  const COUNT = 180;
+  for (let i = 0; i < COUNT; i++){
+    pieces.push({
+      x: Math.random() * W,
+      y: -20 - Math.random() * H * 0.5,
+      vx: (Math.random() - 0.5) * 3,
+      vy: 2 + Math.random() * 4,
+      size: 6 + Math.random() * 8,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - 0.5) * 0.25,
+      shape: Math.random() < 0.4 ? "circle" : (Math.random() < 0.5 ? "rect" : "tri"),
+      tilt: Math.random() * 0.7 + 0.3
+    });
+  }
+
+  let running = true;
+  let startTime = Date.now();
+
+  function draw(){
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    let alive = 0;
+    for (const p of pieces){
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.06; // gravity
+      p.vx *= 0.998;
+      p.rot += p.vr;
+
+      if (p.y < H + 30) alive++;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(p.tilt, 1);
+      ctx.fillStyle = p.color;
+      if (p.shape === "circle"){
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size/2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (p.shape === "rect"){
+        ctx.fillRect(-p.size/2, -p.size/4, p.size, p.size/2);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(0, -p.size/2);
+        ctx.lineTo(p.size/2, p.size/2);
+        ctx.lineTo(-p.size/2, p.size/2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // Stop after 6s OR when all pieces have fallen
+    const elapsed = (Date.now() - startTime) / 1000;
+    if (alive === 0 && elapsed > 3) running = false;
+    if (elapsed > 8) running = false;
+
+    if (running) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, W, H);
+  }
+
+  requestAnimationFrame(draw);
+}
+</script>
+
+</body>
+</html>
