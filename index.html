@@ -85,20 +85,6 @@
     align-items: center;
     gap: 10px;
   }
-  .brand-mark{
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: var(--primary);
-    position: relative;
-    flex: none;
-  }
-  .brand-mark::after{
-    content: "";
-    position: absolute;
-    inset: 5px;
-    border-radius: 50%;
-    border: 1.5px dashed var(--orange);
-  }
   .topbar .pill{
     background: var(--primary);
     color: var(--secondary);
@@ -183,19 +169,8 @@
     right: 22px;
     width: 80px;
     height: 80px;
-    border-radius: 50%;
-    background: var(--secondary);
-    border: 2px solid var(--primary);
-    overflow: hidden;
   }
-  .baseball-deco::before, .baseball-deco::after{
-    content: "";
-    position: absolute;
-    border: 2px dashed var(--red);
-    border-radius: 50%;
-  }
-  .baseball-deco::before{ inset: -22px -50px -22px 30px; }
-  .baseball-deco::after{ inset: -22px 30px -22px -50px; }
+  .baseball-deco svg{ width: 100%; height: 100%; display: block; }
 
   /* ---------- Buttons ---------- */
   .btn{
@@ -461,6 +436,62 @@
   }
   .cta-card.donate .icon{ background: var(--orange); }
   .cta-card.web .icon{ background: var(--aqua); color: var(--primary); }
+
+  /* Donate block with three fund buttons */
+  .donate-block{
+    border: 2px solid var(--primary);
+    background: var(--secondary);
+    padding: 18px 18px;
+    border-radius: 4px;
+  }
+  .donate-header{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .donate-header .icon{
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--secondary);
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+    font-family: var(--display);
+    font-size: 22px;
+  }
+  .fund-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .fund-btn{
+    border: 2px solid var(--primary);
+    background: var(--secondary);
+    color: var(--primary);
+    border-radius: 4px;
+    padding: 12px 8px;
+    text-decoration: none;
+    text-align: center;
+    font-family: var(--display);
+    letter-spacing: 0.06em;
+    font-size: 13px;
+    line-height: 1.15;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+  }
+  .fund-btn:hover{
+    background: var(--orange);
+    color: var(--secondary);
+    border-color: var(--orange);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--primary);
+  }
+  .fund-name{ display: block; }
   .cta-card .ct-title{
     font-family: var(--display);
     letter-spacing: 0.08em;
@@ -472,55 +503,6 @@
     line-height: 1.35;
     color: #555;
   }
-
-  /* ---------- Email form ---------- */
-  .email-form{
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-    flex-direction: column;
-  }
-  .email-form input{
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid var(--primary);
-    border-radius: 4px;
-    font-family: var(--body);
-    font-size: 16px;
-    background: var(--secondary);
-    color: var(--primary);
-    outline: none;
-  }
-  .email-form input:focus{
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(238,115,49,0.15);
-  }
-  .email-form button{
-    padding: 14px 18px;
-    background: var(--primary);
-    color: var(--secondary);
-    border: 2px solid var(--primary);
-    border-radius: 4px;
-    font-family: var(--display);
-    letter-spacing: 0.1em;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .email-form button:hover{ background: var(--mid-green); border-color: var(--mid-green); }
-  .form-msg{
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--mid-green);
-    font-weight: 600;
-  }
-  .form-msg.error{ color: var(--red); }
-
-  /* expandable email card */
-  .cta-card.email .email-form{ display: none; }
-  .cta-card.email.open{ flex-direction: column; align-items: stretch; }
-  .cta-card.email.open .email-form{ display: flex; }
-  .cta-card.email .header-row{ display: flex; align-items: center; gap: 16px; width: 100%; }
 
   /* ---------- Confetti ---------- */
   #confetti-canvas{
@@ -548,6 +530,9 @@
     .card{ padding: 28px 20px; box-shadow: 5px 5px 0 var(--primary); }
     .baseball-deco{ width: 60px; height: 60px; top: 16px; right: 16px; }
     .option{ font-size: 16px; padding: 14px 14px; }
+    .fund-btn{ font-size: 11px; padding: 10px 4px; min-height: 70px; }
+    .fund-row{ gap: 6px; }
+    .donate-block{ padding: 14px 14px; }
   }
 </style>
 </head>
@@ -559,22 +544,48 @@
 
   <div class="topbar">
     <div class="brand">
-      <div class="brand-mark"></div>
-      <span>The Cleveland Foundation</span>
+      <span>Cleveland Foundation</span>
     </div>
     <span class="pill">CLE Trivia ’26</span>
   </div>
 
   <!-- ============== WELCOME SCREEN ============== -->
   <section id="screen-welcome" class="card">
-    <div class="baseball-deco"></div>
+    <div class="baseball-deco" aria-hidden="true">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ball body -->
+        <circle cx="50" cy="50" r="46" fill="#F3F1EF" stroke="#164430" stroke-width="2.5"/>
+        <!-- Left curved seam -->
+        <path d="M 18,22 Q 38,50 18,78" fill="none" stroke="#CC1E4B" stroke-width="2" stroke-linecap="round"
+              stroke-dasharray="3 4"/>
+        <!-- Right curved seam -->
+        <path d="M 82,22 Q 62,50 82,78" fill="none" stroke="#CC1E4B" stroke-width="2" stroke-linecap="round"
+              stroke-dasharray="3 4"/>
+        <!-- Stitch tick marks along left seam -->
+        <g stroke="#CC1E4B" stroke-width="1.6" stroke-linecap="round" fill="none">
+          <line x1="20" y1="28" x2="14" y2="26"/>
+          <line x1="24" y1="38" x2="18" y2="36"/>
+          <line x1="28" y1="50" x2="22" y2="50"/>
+          <line x1="24" y1="62" x2="18" y2="64"/>
+          <line x1="20" y1="72" x2="14" y2="74"/>
+        </g>
+        <!-- Stitch tick marks along right seam -->
+        <g stroke="#CC1E4B" stroke-width="1.6" stroke-linecap="round" fill="none">
+          <line x1="80" y1="28" x2="86" y2="26"/>
+          <line x1="76" y1="38" x2="82" y2="36"/>
+          <line x1="72" y1="50" x2="78" y2="50"/>
+          <line x1="76" y1="62" x2="82" y2="64"/>
+          <line x1="80" y1="72" x2="86" y2="74"/>
+        </g>
+      </svg>
+    </div>
     <div class="hero-eyebrow">Take Me Out to the Quiz</div>
     <h1 class="hero-title">
       How <span class="swap">Cleveland</span><br>
       Are You?
     </h1>
     <p class="hero-sub">
-      Ten questions. One city. A century of Cleveland baseball, civic milestones, and Foundation history all rolled into one game-day challenge. Test your knowledge and find out where you rank.
+      Ten questions. One city. A century of Cleveland baseball, civic milestones, and Cleveland Foundation history all rolled into one game-day challenge. Test your knowledge and find out where you rank.
     </p>
     <div class="hero-meta">
       <span class="meta-chip">⚾ 10 Questions</span>
@@ -614,41 +625,43 @@
       <h3 class="cta-heading">Keep the Momentum Going</h3>
       <div class="cta-grid">
 
-        <!-- CTA 1 — Email signup (web3forms) -->
-        <div class="cta-card email" id="email-card">
-          <div class="header-row" onclick="toggleEmailForm()">
-            <div class="icon">✉</div>
-            <div>
-              <div class="ct-title">Stay In The Loop</div>
-              <div class="ct-sub">Get updates on the Foundation's work across Greater Cleveland.</div>
-            </div>
-          </div>
-          <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
-            <input type="hidden" name="access_key" value="703d8f42-6326-4ee0-ae37-42a0b5d74e35">
-            <input type="hidden" name="subject" value="New Cleveland Foundation Trivia Signup">
-            <input type="hidden" name="from_name" value="CLE Trivia Quiz">
-            <input type="text" name="name" placeholder="Your name" required>
-            <input type="email" name="email" placeholder="you@email.com" required>
-            <button type="submit">Sign Me Up</button>
-            <div class="form-msg hidden" id="form-msg"></div>
-          </form>
-        </div>
-
-        <!-- CTA 2 — Donate -->
-        <a class="cta-card donate" href="https://donate.stripe.com/3cI8wP8YZ3Tg2ka2H24c81Y" target="_blank" rel="noopener">
-          <div class="icon">♥</div>
+        <!-- CTA 1 — Newsletter signup redirect -->
+        <a class="cta-card" href="https://www.clevelandfoundation.org/newsletter-sign-up" target="_blank" rel="noopener">
+          <div class="icon">✉</div>
           <div>
-            <div class="ct-title">Give Now</div>
-            <div class="ct-sub">Help keep Cleveland great for the next generation.</div>
+            <div class="ct-title">Stay Connected</div>
+            <div class="ct-sub">Sign up for updates on the Foundation's work across Greater Cleveland.</div>
           </div>
         </a>
 
-        <!-- CTA 3 — Visit website -->
-        <a class="cta-card web" href="https://www.clevelandfoundation.org/" target="_blank" rel="noopener">
-          <div class="icon">→</div>
+        <!-- CTA 2 — Give Now (3 fund options) -->
+        <div class="donate-block">
+          <div class="donate-header">
+            <div class="icon orange-icon">♥</div>
+            <div>
+              <div class="ct-title">Give Now</div>
+              <div class="ct-sub">Help keep Cleveland great for the next generation. Choose a fund:</div>
+            </div>
+          </div>
+          <div class="fund-row">
+            <a class="fund-btn" href="https://donate.stripe.com/4gM5kDdffblI0c281m4c81i" target="_blank" rel="noopener">
+              <span class="fund-name">LGBTQ+ Opportunity Fund</span>
+            </a>
+            <a class="fund-btn" href="https://donate.stripe.com/cNieVdb77blIgb06Xi4c81h" target="_blank" rel="noopener">
+              <span class="fund-name">Black Philanthropy Fund</span>
+            </a>
+            <a class="fund-btn" href="https://donate.stripe.com/aFa28r0stahEf6W81m4c81g" target="_blank" rel="noopener">
+              <span class="fund-name">Latino Impacto Fund</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- CTA 3 — Join us on Game Day -->
+        <a class="cta-card web" href="https://www.clevelandfoundation.org/stories-events/stories-news/2026/05/22/the-cleveland-foundation-is-partnering-with-guardians" target="_blank" rel="noopener">
+          <div class="icon">⚾</div>
           <div>
-            <div class="ct-title">Visit Our Website</div>
-            <div class="ct-sub">Explore 100+ years of Cleveland Foundation impact.</div>
+            <div class="ct-title">Join Us On Game Day</div>
+            <div class="ct-sub">Learn about our partnership with the Cleveland Guardians.</div>
           </div>
         </a>
 
@@ -684,8 +697,8 @@ const QUESTIONS = [
     explain: "1920 — a championship year that also kicked off a transformative era in Cleveland civic life."
   },
   {
-    q: "Which local landmark — now just a stone's throw from the Cleveland Foundation — was the site of the 1920 World Series victory over the Brooklyn Robins?",
-    options: ["Municipal Stadium", "League Park (E 65th & Lexington)", "Jacobs Field", "Dunn Field at Euclid"],
+    q: "Which local landmark — now just a few short steps away from the Cleveland Foundation — was the site of the 1920 World Series victory over the Brooklyn Robins?",
+    options: ["Municipal Stadium", "League Park", "Jacobs Field", "Dunn Field at Euclid"],
     answer: 1,
     explain: "League Park at E 65th & Lexington. You can still walk the old infield today."
   },
@@ -701,7 +714,7 @@ const QUESTIONS = [
       "It was the first all-steel skyscraper",
       "It was the tallest building in the world",
       "It was the first to use elevators",
-      "It was the world's first art-deco tower"
+      "It was the world's first Art Deco tower"
     ],
     answer: 1,
     explain: "It was the tallest building in the world outside New York City — a true Cleveland icon on the skyline."
@@ -713,7 +726,7 @@ const QUESTIONS = [
     explain: "Carl Stokes — elected in 1967, a defining moment in American political history made right here in Cleveland."
   },
   {
-    q: "In what year did the Guardians break ground for Jacobs Field (now Progressive Field) AND the Cleveland Foundation begin a Committee organizing African-American Philanthropists around the city?",
+    q: "This is the year the Guardians broke ground for Jacobs Field (now Progressive Field) AND the Cleveland Foundation established a committee organizing African-American philanthropists around the city?",
     options: ["1989", "1991", "1993", "1995"],
     answer: 2,
     explain: "1993 — a banner year for both the ballpark groundbreaking and a landmark moment for Cleveland philanthropy."
@@ -871,44 +884,6 @@ function showResults(){
 function restartQuiz(){
   document.getElementById("screen-results").classList.add("hidden");
   document.getElementById("screen-welcome").classList.remove("hidden");
-  // reset email form UI
-  const card = document.getElementById("email-card");
-  card.classList.remove("open");
-  document.getElementById("form-msg").classList.add("hidden");
-  document.getElementById("email-form").reset();
-}
-
-/* =====================================================
-   EMAIL FORM (Web3Forms)
-   ===================================================== */
-function toggleEmailForm(){
-  document.getElementById("email-card").classList.toggle("open");
-}
-
-async function submitEmail(e){
-  e.preventDefault();
-  const form = e.target;
-  const msg = document.getElementById("form-msg");
-  msg.classList.remove("hidden", "error");
-  msg.textContent = "Sending...";
-
-  try {
-    const formData = new FormData(form);
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json();
-    if (data.success){
-      msg.textContent = "🎉 You're in! We'll be in touch soon.";
-      form.reset();
-    } else {
-      throw new Error(data.message || "Submission failed");
-    }
-  } catch (err) {
-    msg.classList.add("error");
-    msg.textContent = "Hmm, something went wrong. Please try again.";
-  }
 }
 
 /* =====================================================
